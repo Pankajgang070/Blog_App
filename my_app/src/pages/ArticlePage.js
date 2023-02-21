@@ -10,7 +10,7 @@ import useUser from "../hooks/useUser";
 
 const ArticlePage = () => {
   const { articleId } = useParams();
-  const [articleInfo, setArticleInfo] = useState({count:0, comments:[], canUpvote: false});
+  const [articleInfo, setArticleInfo] = useState({counts:0, comments:[], canUpvote: false});
 
   const {user, isLoading} = useUser();
 
@@ -49,9 +49,9 @@ const ArticlePage = () => {
       <h1>{article.name}</h1>
       <div id="upvotes-section">
         {user ? 
-        <button onClick={addupVotes}>{!article.canUpvote ? "UpVote" : "Already Upvoted"}</button> :
+        <button onClick={addupVotes}>UpVote</button> :
         <button> Login to UpVote</button> }
-        <p>This article has {articleInfo.count} upVote(s)!</p>
+        <p>This article has {articleInfo.counts} upVote(s)!</p>
       </div>
       {article.content.map((para, i) => (
         <p key={i}>{para}</p>

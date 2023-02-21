@@ -1,15 +1,27 @@
 import express from "express";
 import fs from "fs";
+import path from "path";
+import 'dotenv/config';
 import admim from "firebase-admin";
+import { fileURLToPath } from "url";
 
 import { db, connectToDB } from "./db.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 
 app.use(express.json());
 
+app.use(express.static(path.join(__dirname, '../build')));
+
 const credentials = JSON.parse(fs.readFileSync("./credentials.json"));
 admim.initializeApp({credential: admim.credential.cert(credentials)});
+
+app.get(/^(?!\/api).+/, (req, res) => {
+    res.sendFile(path.join(__dirname, '../build/index.html'));
+});
 
 app.use(async(req, res, next) => {
     const {authtoken} = req.headers;
@@ -66,7 +78,7 @@ app.put("/api/articles/:name/upvote", async (req, res)=> {
         
         if(canUpvote){
             await db.collection('articles').updateOne({name}, { 
-                $inc: {count: 1}, 
+                $inc: {counts: 1}, 
                 $push: {upVoteIds: uid} 
             });
         }
@@ -93,9 +105,11 @@ app.post("/api/articles/:name/comments", async (req,res)=> {
         }
 });
 
+const PORT = process.env.PORT || 5000;
+
 
 connectToDB(() => {
-    app.listen(5000, ()=>{
-        console.log("App is listening at port 5000!");
+    app.listen(PORT, ()=>{
+        console.log("App is listening at port " + PORT);
     })
 });
