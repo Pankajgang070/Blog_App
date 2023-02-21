@@ -14,6 +14,7 @@ const firebaseConfig = {
   appId: "1:422924170390:web:48ec7bece6151400f63eb7"
 };
 
+// eslint-disable-next-line no-unused-vars
 const app = initializeApp(firebaseConfig);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

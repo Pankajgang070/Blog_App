@@ -7,6 +7,8 @@ import ArticlePage from "./pages/ArticlePage";
 import HomePage from "./pages/HomePage";
 import NavBar from "./NavBar";
 import NotFoundPage from "./pages/NotFoundPage";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
             <Route exact path="/" element={<HomePage />} />
             <Route exact path="/about" element={<AboutPage />} />
             <Route exact path="/articles" element={<ArticleListPage />} />
+            <Route exact path="/login" element={<LoginPage />} />
+            <Route exact path="/register" element={<RegisterPage />} />
             <Route path="*" element={<NotFoundPage />} />
             <Route
               exact
